@@ -147,8 +147,13 @@ function playQueue(queue) {
 function playCurrent() {
   const song = currentQueue[currentIndex];
   if (!song) return;
+
   audioPlayer.src = song.src;
-  audioPlayer.play();
+
+  // Mobil kompatibilis lejátszás
+  setTimeout(() => {
+    audioPlayer.play().catch(() => {});
+  }, 50);
 }
 
 // Automatikus következő (loop-pal)
@@ -197,6 +202,7 @@ playlistBtn.addEventListener("click", () => {
   const list = songs.filter(s => s.inPlaylist);
   playQueue(list);
 });
+
 // =============================
 // KEZDŐKÉPERNYŐRE TELEPÍTÉS GOMB
 // =============================
@@ -215,7 +221,7 @@ window.addEventListener("beforeinstallprompt", (e) => {
 installBtn.addEventListener("click", async () => {
   if (deferredPrompt) {
     deferredPrompt.prompt();
-    const result = await deferredPrompt.userChoice;
+    await deferredPrompt.userChoice;
     deferredPrompt = null;
   } else {
     alert("iPhone-on: Safari → Megosztás → Hozzáadás a Főképernyőhöz");
