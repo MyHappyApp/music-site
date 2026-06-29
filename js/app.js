@@ -208,8 +208,8 @@ function updatePlayButtons() {
     if (currentQueue[currentIndex] && songs[index].id === currentQueue[currentIndex].id) {
       btn.textContent = "⏸";
     } else {
-      btn.textContent = "▶";
-    }
+  btn.textContent = "▶";
+}
   });
 }
 
@@ -218,6 +218,15 @@ function updatePlayButtons() {
 // =============================
 function highlightCurrentSong() {
   const items = document.querySelectorAll(".song-item");
+
   items.forEach((item, index) => {
-    if (currentQueue[currentIndex] && songs[index].id === currentQueue[currentIndex].id) {
+    if (
+      currentQueue[currentIndex] &&
+      songs[index].id === currentQueue[currentIndex].id
+    ) {
       item.classList.add("active");
+    } else {
+      item.classList.remove("active");
+    }
+  });
+}
