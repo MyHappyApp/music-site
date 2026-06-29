@@ -119,9 +119,13 @@ function renderSongs() {
 
     // Play gomb
     const playBtn = document.createElement("button");
+    playBtn.className = "play-btn";
     playBtn.textContent = "▶";
+
     playBtn.addEventListener("click", () => {
       playQueue([song]);
+      updatePlayButtons();
+      highlightCurrentSong();
     });
 
     actions.appendChild(favBtn);
@@ -150,25 +154,29 @@ function playCurrent() {
 
   audioPlayer.src = song.src;
 
-  // Mobil kompatibilis lejátszás
   setTimeout(() => {
     audioPlayer.play().catch(() => {});
   }, 50);
+
+  document.getElementById("nowPlaying").textContent = "🎵 " + song.title;
+
+  updatePlayButtons();
+  highlightCurrentSong();
 }
 
-// Automatikus következő (loop-pal)
+// Automatikus következő
 audioPlayer.addEventListener("ended", () => {
   nextSong();
 });
 
 // =============================
-// NEXT / PREV FUNKCIÓK (LOOP)
+// NEXT / PREV
 // =============================
 function nextSong() {
   if (currentIndex < currentQueue.length - 1) {
     currentIndex++;
   } else {
-    currentIndex = 0; // vissza az elsőre
+    currentIndex = 0;
   }
   playCurrent();
 }
@@ -177,53 +185,39 @@ function prevSong() {
   if (currentIndex > 0) {
     currentIndex--;
   } else {
-    currentIndex = currentQueue.length - 1; // át az utolsóra
+    currentIndex = currentQueue.length - 1;
   }
   playCurrent();
 }
 
-nextBtn.addEventListener("click", nextSong);
-prevBtn.addEventListener("click", prevSong);
-
-// =============================
-// GOMBOK
-// =============================
-
-playAllBtn.addEventListener("click", () => {
-  playQueue(songs);
+nextBtn.addEventListener("click", () => {
+  nextSong();
 });
 
-favoritesBtn.addEventListener("click", () => {
-  const favs = songs.filter(s => s.favorite);
-  playQueue(favs);
-});
-
-playlistBtn.addEventListener("click", () => {
-  const list = songs.filter(s => s.inPlaylist);
-  playQueue(list);
+prevBtn.addEventListener("click", () => {
+  prevSong();
 });
 
 // =============================
-// KEZDŐKÉPERNYŐRE TELEPÍTÉS GOMB
+// PLAY GOMBOK FRISSÍTÉSE
 // =============================
+function updatePlayButtons() {
+  const items = document.querySelectorAll(".song-item");
+  items.forEach((item, index) => {
+    const btn = item.querySelector(".play-btn");
+    if (currentQueue[currentIndex] && songs[index].id === currentQueue[currentIndex].id) {
+      btn.textContent = "⏸";
+    } else {
+      btn.textContent = "▶";
+    }
+  });
+}
 
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
-
-// Ha a böngésző jelzi, hogy telepíthető
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installBtn.style.display = "flex"; // megjelenik a gomb
-});
-
-// Gomb megnyomása
-installBtn.addEventListener("click", async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    await deferredPrompt.userChoice;
-    deferredPrompt = null;
-  } else {
-    alert("iPhone-on: Safari → Megosztás → Hozzáadás a Főképernyőhöz");
-  }
-});
+// =============================
+// AKTUÁLIS ZENE KIEMELÉSE
+// =============================
+function highlightCurrentSong() {
+  const items = document.querySelectorAll(".song-item");
+  items.forEach((item, index) => {
+    if (currentQueue[currentIndex] && songs[index].id === currentQueue[currentIndex].id) {
+      item.classList.add("active");

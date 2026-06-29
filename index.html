@@ -2,10 +2,7 @@
 <html lang="hu">
 <head>
   <meta charset="UTF-8">
-
-  <!-- MOBILBARÁT NÉZET – EZ VOLT A HIÁNYZÓ SOR -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-
   <title>SoundBox Player</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -25,16 +22,18 @@
 <!-- APP -->
 <div id="app" class="player-container hidden">
 
-  <!-- CÍM + TELEPÍTÉS GOMB EGY SORBAN -->
+  <!-- CÍM + TELEPÍTÉS GOMB -->
   <div class="title-row">
     <h1>🔥 SoundBox Player</h1>
     <div class="install-btn" id="installBtn">＋</div>
   </div>
 
+  <!-- AKTUÁLIS ZENE -->
+  <div id="nowPlaying" class="now-playing">🎵 Nincs lejátszás</div>
+
   <!-- LEBEGŐ PLAYER -->
   <div id="floatingPlayer" class="floating-player">
 
-    <!-- Equalizer -->
     <div class="equalizer">
       <div class="bar bar1"></div>
       <div class="bar bar2"></div>
