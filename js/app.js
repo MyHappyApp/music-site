@@ -95,7 +95,6 @@ function renderSongs() {
     const actions = document.createElement("div");
     actions.className = "song-actions";
 
-    // Kedvenc gomb
     const favBtn = document.createElement("button");
     favBtn.className = "favorite-btn";
     favBtn.innerHTML = song.favorite ? "★" : "☆";
@@ -108,7 +107,6 @@ function renderSongs() {
       saveFavorites();
     });
 
-    // Playlist checkbox
     const playlistCheckbox = document.createElement("input");
     playlistCheckbox.type = "checkbox";
     playlistCheckbox.title = "Kijelölés";
@@ -117,12 +115,30 @@ function renderSongs() {
       song.inPlaylist = playlistCheckbox.checked;
     });
 
-    // Play gomb
     const playBtn = document.createElement("button");
     playBtn.className = "play-btn";
     playBtn.textContent = "▶";
 
     playBtn.addEventListener("click", () => {
+
+      if (currentQueue[currentIndex] && currentQueue[currentIndex].id === song.id) {
+
+        if (!audioPlayer.paused) {
+          audioPlayer.pause();
+          playBtn.textContent = "▶";
+          updatePlayButtons();
+          highlightCurrentSong();
+          return;
+        } else {
+          playBtn.textContent = "⏸";
+          audioPlayer.play().catch(() => {});
+          updatePlayButtons();
+          highlightCurrentSong();
+          return;
+        }
+      }
+
+      playBtn.textContent = "⏸";
       playQueue([song]);
       updatePlayButtons();
       highlightCurrentSong();
@@ -153,20 +169,32 @@ function playCurrent() {
   if (!song) return;
 
   audioPlayer.src = song.src;
-
-  setTimeout(() => {
-    audioPlayer.play().catch(() => {});
-  }, 50);
-
   document.getElementById("nowPlaying").textContent = "🎵 " + song.title;
 
   updatePlayButtons();
   highlightCurrentSong();
+
+  setTimeout(() => {
+    audioPlayer.play()
+      .then(() => {
+        updatePlayButtons();
+        highlightCurrentSong();
+      })
+      .catch(() => {});
+  }, 50);
 }
 
-// Automatikus következő
 audioPlayer.addEventListener("ended", () => {
   nextSong();
+});
+
+audioPlayer.addEventListener("pause", () => {
+  updatePlayButtons();
+});
+
+audioPlayer.addEventListener("play", () => {
+  updatePlayButtons();
+  highlightCurrentSong();
 });
 
 // =============================
@@ -205,11 +233,12 @@ function updatePlayButtons() {
   const items = document.querySelectorAll(".song-item");
   items.forEach((item, index) => {
     const btn = item.querySelector(".play-btn");
+
     if (currentQueue[currentIndex] && songs[index].id === currentQueue[currentIndex].id) {
-      btn.textContent = "⏸";
+      btn.textContent = audioPlayer.paused ? "▶" : "⏸";
     } else {
-  btn.textContent = "▶";
-}
+      btn.textContent = "▶";
+    }
   });
 }
 
@@ -218,15 +247,58 @@ function updatePlayButtons() {
 // =============================
 function highlightCurrentSong() {
   const items = document.querySelectorAll(".song-item");
-
   items.forEach((item, index) => {
-    if (
-      currentQueue[currentIndex] &&
-      songs[index].id === currentQueue[currentIndex].id
-    ) {
+    if (currentQueue[currentIndex] && songs[index].id === currentQueue[currentIndex].id) {
       item.classList.add("active");
     } else {
       item.classList.remove("active");
     }
   });
+}
+
+// =============================
+// GOMBOK: ÖSSZES / KEDVENCEK / KIJELÖLTEK
+// =============================
+playAllBtn.addEventListener("click", () => {
+  playQueue(songs);
+});
+
+favoritesBtn.addEventListener("click", () => {
+  const favs = songs.filter(s => s.favorite);
+  playQueue(favs);
+});
+
+playlistBtn.addEventListener("click", () => {
+  const list = songs.filter(s => s.inPlaylist);
+  playQueue(list);
+});
+
+// =============================
+// TELEPÍTÉS GOMB
+// =============================
+let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
+
+installBtn.style.display = "flex";
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+installBtn.addEventListener("click", async () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    await deferredPrompt.userChoice;
+    deferredPrompt = null;
+  } else {
+    alert("Telefonon: böngésző menü → Hozzáadás a kezdőképernyőhöz. iPhone-on: Safari → Megosztás → Hozzáadás a Főképernyőhöz.");
+  }
+});
+
+// =============================
+// SERVICE WORKER
+// =============================
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
 }

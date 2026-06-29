@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>SoundBox Player</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.webmanifest">
 </head>
 <body>
 
-<!-- BELÉPŐ KÉPERNYŐ -->
 <div id="lockScreen" class="lock-screen">
   <div class="lock-box">
     <h1>🔒 Belépés</h1>
@@ -19,19 +19,15 @@
   </div>
 </div>
 
-<!-- APP -->
 <div id="app" class="player-container hidden">
 
-  <!-- CÍM + TELEPÍTÉS GOMB -->
   <div class="title-row">
     <h1>🔥 SoundBox Player</h1>
-    <div class="install-btn" id="installBtn">＋</div>
+    <button class="install-btn" id="installBtn">＋</button>
   </div>
 
-  <!-- AKTUÁLIS ZENE -->
   <div id="nowPlaying" class="now-playing">🎵 Nincs lejátszás</div>
 
-  <!-- LEBEGŐ PLAYER -->
   <div id="floatingPlayer" class="floating-player">
 
     <div class="equalizer">
@@ -56,7 +52,7 @@
     <button id="playlistBtn">Kijelöltek lejátszása</button>
   </div>
 
-  <h2>Zenék</h2>
+  <h2 style="margin-top: 25px;">Zenék</h2>
   <ul id="songList"></ul>
 
 </div>
