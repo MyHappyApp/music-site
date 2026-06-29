@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8">
+  <title>SoundBox Player</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- BELÉPŐ KÉPERNYŐ -->
+<div id="lockScreen" class="lock-screen">
+  <div class="lock-box">
+    <h1>🔒 Belépés</h1>
+    <p>Írd be a belépési kódot:</p>
+    <input type="password" id="accessCodeInput" placeholder="Kód">
+    <button id="accessCodeBtn">Belépés</button>
+    <p id="accessError" class="error-msg"></p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="player-container hidden">
+
+  <!-- CÍM + TELEPÍTÉS GOMB EGY SORBAN -->
+  <div class="title-row">
+    <h1>🔥 SoundBox Player</h1>
+    <div class="install-btn" id="installBtn">＋</div>
+  </div>
+
+  <!-- LEBEGŐ PLAYER -->
+  <div id="floatingPlayer" class="floating-player">
+
+    <!-- Equalizer -->
+    <div class="equalizer">
+      <div class="bar bar1"></div>
+      <div class="bar bar2"></div>
+      <div class="bar bar3"></div>
+      <div class="bar bar4"></div>
+      <div class="bar bar5"></div>
+    </div>
+
+    <audio id="audioPlayer" controls></audio>
+
+    <div class="player-buttons">
+      <button id="prevBtn">⏮ Előző</button>
+      <button id="nextBtn">⏭ Következő</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="playAllBtn">Összes lejátszása</button>
+    <button id="favoritesBtn">Kedvencek lejátszása</button>
+    <button id="playlistBtn">Kijelöltek lejátszása</button>
+  </div>
+
+  <h2>Zenék</h2>
+  <ul id="songList"></ul>
+
+</div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

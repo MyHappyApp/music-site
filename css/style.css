@@ -1,0 +1,283 @@
+body {
+  background: linear-gradient(135deg, #0d0d0d, #2a2a2a);
+  color: #fff;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================
+   BELÉPŐ KÉPERNYŐ
+   ============================ */
+
+.lock-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.lock-box {
+  background: #222;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(255, 0, 100, 0.4);
+  text-align: center;
+}
+
+.lock-box h1 {
+  margin-bottom: 15px;
+  color: #ff0066;
+}
+
+.lock-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+}
+
+.lock-box button {
+  background: #ff0066;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.lock-box button:hover {
+  background: #ff3388;
+}
+
+.error-msg {
+  color: #ff5555;
+  margin-top: 8px;
+}
+
+/* ============================
+   APP KONTAINER
+   ============================ */
+
+.player-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(255, 0, 150, 0.4);
+}
+
+/* ============================
+   CÍM + TELEPÍTÉS GOMB EGY SORBAN
+   ============================ */
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+/* + GOMB A CÍM MELLETT */
+.install-btn {
+  background: #ff0066;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 0, 150, 0.7);
+  transition: 0.2s;
+}
+
+.install-btn:hover {
+  background: #ff3388;
+  transform: scale(1.1);
+}
+
+/* ============================
+   LEBEGŐ PLAYER
+   ============================ */
+
+.floating-player {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(10px);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 25px rgba(255, 0, 150, 0.5);
+  border: 1px solid rgba(255, 0, 150, 0.4);
+}
+
+/* ============================
+   EQUALIZER ANIMÁCIÓ
+   ============================ */
+
+.equalizer {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 10px;
+  height: 20px;
+  align-items: flex-end;
+}
+
+.bar {
+  width: 6px;
+  background: #ff0099;
+  border-radius: 3px;
+  animation: bounce 1s infinite ease-in-out;
+}
+
+.bar1 { animation-delay: 0s; }
+.bar2 { animation-delay: 0.2s; }
+.bar3 { animation-delay: 0.4s; }
+.bar4 { animation-delay: 0.6s; }
+.bar5 { animation-delay: 0.8s; }
+
+@keyframes bounce {
+  0% { height: 4px; }
+  50% { height: 20px; }
+  100% { height: 4px; }
+}
+
+/* ============================
+   AUDIO PLAYER OMBRÉ KERET
+   ============================ */
+
+#audioPlayer {
+  width: 100%;
+  border-radius: 14px;
+  padding: 6px;
+
+  background: linear-gradient(135deg, #ff0099, #ff66cc, #ffccff);
+
+  box-shadow: 
+    0 0 10px rgba(255, 0, 150, 0.6),
+    0 0 20px rgba(255, 0, 200, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.2);
+
+  backdrop-filter: blur(6px);
+  filter: brightness(1.15) saturate(1.3);
+}
+
+/* ============================
+   NEXT / PREV gombok
+   ============================ */
+
+.player-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.player-buttons button {
+  background: #ff0066;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+  box-shadow: 0 0 10px rgba(255, 0, 150, 0.4);
+}
+
+.player-buttons button:hover {
+  background: #ff3388;
+}
+
+/* ============================
+   GOMBOK
+   ============================ */
+
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.controls button {
+  background: #ff0066;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.controls button:hover {
+  background: #ff3388;
+}
+
+/* ============================
+   ZENE LISTA
+   ============================ */
+
+#songList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #2a2a2a;
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 0 10px rgba(255, 0, 150, 0.2);
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.song-title {
+  font-weight: bold;
+}
+
+.song-artist {
+  font-size: 0.9em;
+  color: #ccc;
+}
+
+.song-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.favorite-btn {
+  background: transparent;
+  border: none;
+  color: #ffcc00;
+  font-size: 1.4em;
+  cursor: pointer;
+}
+
+.favorite-btn.active {
+  color: #ffd700;
+}
+
+.hidden {
+  display: none;
+}
